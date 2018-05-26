@@ -39,7 +39,12 @@ public class LoginUI {
 			public void actionPerformed(ActionEvent e) {
 				String password = text1.getText();
 				if(password.equals("123456"))
-					new MasterUI();
+					try {
+						new MasterUI();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				else 
 					JOptionPane.showMessageDialog(null, "√‹¬Î¥ÌŒÛ", "WRONG", JOptionPane.INFORMATION_MESSAGE);
 			}
