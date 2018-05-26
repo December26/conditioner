@@ -37,7 +37,11 @@ public class LoginUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				String password = text1.getText();
+				if(password.equals("123456"))
+					new MasterUI();
+				else 
+					JOptionPane.showMessageDialog(null, "√‹¬Î¥ÌŒÛ", "WRONG", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		
@@ -45,7 +49,8 @@ public class LoginUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				String roomId = text2.getText();
+				new SlaveUI(roomId);
 			}
 		});
 		
