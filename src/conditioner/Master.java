@@ -21,20 +21,14 @@ public class Master {
 	private Element rootElement = document.getRootElement();
 	
 	public Master() throws Exception {
-		
-		
-		
+						
 		Element config = rootElement.element("master");
 		
-		status = config.element("status").getText();
+		status = "´ý»ú";
 		mode = config.element("mode").getText();
 		roomId = config.element("roomId").getText();
 		defaultTemperature = Integer.valueOf(config.element("defaultTemperature").getText()).intValue();
 		refreshRate = Integer.valueOf(config.element("refreshRate").getText()).intValue();
-		
-		//config.element("defaultTemperature").setText("25");
-		
-		System.out.println(defaultTemperature);
 		
 		writeXML();
 	}

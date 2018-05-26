@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,10 +20,20 @@ public class SettingUI {
 		JLabel label1 = new JLabel("工作模式:");
         label1.setBounds(10,70,150,25);
         frame.add(label1);
+		JComboBox box = new JComboBox();
+		box.addItem("制冷");
+		box.addItem("供暖");
+		box.setBounds(150,70,165,25);
+		box.setSelectedItem(master.getMode());
+		frame.add(box);
+		
+		/*JLabel label1 = new JLabel("工作模式:");
+        label1.setBounds(10,70,150,25);
+        frame.add(label1);
         JTextField text1 = new JTextField(20);
         text1.setBounds(150,70,165,25);
         text1.setText(master.getMode());
-        frame.add(text1);
+        frame.add(text1);*/
         
         JLabel label2 = new JLabel("缺省温度");
         label2.setBounds(10,120,150,25);
@@ -54,7 +65,8 @@ public class SettingUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(text.getText().equals("123456")) {
-					master.setMode(text1.getText());
+					
+					master.setMode(box.getSelectedItem().toString());
 					master.setDefaultTemperature(Integer.valueOf(text2.getText()));
 					master.setRefreshRate(Integer.valueOf(text3.getText()));
 					try {
