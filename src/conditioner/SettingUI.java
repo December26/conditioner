@@ -20,11 +20,14 @@ public class SettingUI {
 		JLabel label1 = new JLabel("工作模式:");
         label1.setBounds(10,70,150,25);
         frame.add(label1);
-		JComboBox box = new JComboBox();
+		JComboBox<String> box = new JComboBox<String>();
 		box.addItem("制冷");
 		box.addItem("供暖");
 		box.setBounds(150,70,165,25);
-		box.setSelectedItem(master.getMode());
+		if(master.getMode()==0)
+			box.setSelectedItem("制冷");
+		else
+			box.setSelectedItem("供暖");
 		frame.add(box);
 		
 		/*JLabel label1 = new JLabel("工作模式:");
@@ -66,13 +69,16 @@ public class SettingUI {
 			public void actionPerformed(ActionEvent e) {
 				if(text.getText().equals("123456")) {
 					
-					master.setMode(box.getSelectedItem().toString());
+					if(box.getSelectedItem().toString().equals("制冷"))
+						master.setMode(0);
+					else
+						master.setMode(1);
+					//master.setMode(Integer.valueOf(box.getSelectedItem().toString()));
 					master.setDefaultTemperature(Integer.valueOf(text2.getText()));
 					master.setRefreshRate(Integer.valueOf(text3.getText()));
 					try {
 						master.writeXML();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					JOptionPane.showMessageDialog(null, "设置成功", "YES", JOptionPane.INFORMATION_MESSAGE);

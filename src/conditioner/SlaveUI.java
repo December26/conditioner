@@ -3,7 +3,8 @@ package conditioner;
 import javax.swing.JFrame;
 
 public class SlaveUI {
-	public SlaveUI(String roomId) {
+	public SlaveUI(int roomId) {
+		Slave slave = new Slave(roomId);
 		JFrame frame = new JFrame(roomId + "·¿¼ä");
 		frame.setLayout(null);
 		frame.setBounds(100, 100, 1000, 800);

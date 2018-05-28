@@ -12,8 +12,8 @@ import org.dom4j.io.XMLWriter;
 
 public class Master {
 	private String status;//工作状态，0为关闭，1为待机，2为工作
-	private String mode;//工作模式，0为制冷，1为制热
-	private String roomId;//服务对象
+	private int mode;//工作模式，0为制冷，1为制热
+	private int roomId;//服务对象
 	private int defaultTemperature;//缺省温度
 	private int refreshRate;//刷新频率
 	private SAXReader saxReader = new SAXReader();
@@ -25,8 +25,8 @@ public class Master {
 		Element config = rootElement.element("master");
 		
 		status = "待机";
-		mode = config.element("mode").getText();
-		roomId = config.element("roomId").getText();
+		mode = Integer.valueOf(config.element("mode").getText()).intValue();
+		roomId = Integer.valueOf(config.element("roomId").getText()).intValue();
 		defaultTemperature = Integer.valueOf(config.element("defaultTemperature").getText()).intValue();
 		refreshRate = Integer.valueOf(config.element("refreshRate").getText()).intValue();
 		
@@ -36,8 +36,8 @@ public class Master {
 	public void writeXML() throws Exception {
 		Element config = rootElement.element("master");
 		config.element("status").setText(status);
-		config.element("mode").setText(mode);
-		config.element("roomId").setText(roomId);
+		config.element("mode").setText(String.valueOf(mode));
+		config.element("roomId").setText(String.valueOf(roomId));
 		config.element("defaultTemperature").setText(String.valueOf(defaultTemperature));
 		config.element("refreshRate").setText(String.valueOf(refreshRate));
 		FileOutputStream output = new FileOutputStream(new File("src/conditioner/config.xml"));
@@ -50,11 +50,11 @@ public class Master {
 		return status;
 	}
 
-	public String getMode() {
+	public int getMode() {
 		return mode;
 	}
 
-	public String getRoomId() {
+	public int getRoomId() {
 		return roomId;
 	}
 
@@ -70,11 +70,11 @@ public class Master {
 		this.status = status;
 	}
 
-	public void setMode(String mode) {
+	public void setMode(int mode) {
 		this.mode = mode;
 	}
 
-	public void setRoomId(String roomId) {
+	public void setRoomId(int roomId) {
 		this.roomId = roomId;
 	}
 

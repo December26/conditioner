@@ -54,7 +54,7 @@ public class LoginUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String roomId = text2.getText();
+				int roomId = Integer.valueOf(text2.getText());
 				new SlaveUI(roomId);
 			}
 		});
