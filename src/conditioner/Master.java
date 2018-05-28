@@ -3,6 +3,10 @@ package conditioner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -45,6 +49,14 @@ public class Master {
 		writer.write(document);
 		writer.close();
 	}
+	
+	/*public void ConnectToSlave() throws Exception {
+		ServerSocket serverSocket = new ServerSocket(9999);
+		while(true) {
+			Socket socket = serverSocket.accept();
+			
+		}
+	}*/
 	
 	public String getStatus() {
 		return status;
