@@ -18,7 +18,7 @@ public class SlaveUI {
         text1.setText(String.valueOf(slave.getMode()));
         frame.add(text1);
         
-        JLabel label2 = new JLabel("缺省温度");
+        /*JLabel label2 = new JLabel("缺省温度");
         label2.setBounds(10,120,150,25);
         frame.add(label2);
         JTextField text2 = new JTextField(20);
@@ -27,7 +27,7 @@ public class SlaveUI {
         	text2.setText("22");
         else
         	text2.setText("28");
-        frame.add(text2);
+        frame.add(text2);*/
 		
         JLabel label3 = new JLabel("刷新频率");
         label3.setBounds(10,170,150,25);
@@ -50,7 +50,10 @@ public class SlaveUI {
         frame.add(label5);
         JTextField text5 = new JTextField(20);
         text5.setBounds(150,270,165,25);
-        text5.setText(String.valueOf(slave.getTargetTemperature()));
+        if(slave.getMode()==0)
+        	text5.setText("22");
+        else
+        	text5.setText("28");
         frame.add(text5);
         
         JLabel label6 = new JLabel("风速");
@@ -65,14 +68,28 @@ public class SlaveUI {
 			
 			@Override
 			public void run() {
-				slave.changeTemperature();
-				try {
-					Thread.sleep(slave.getRefreshRate());
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				text4.setText(String.valueOf(slave.getCurrentTemperature()));
+				
+				while(true) {
+					
+					try {
+						Thread.sleep(slave.getRefreshRate()*1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						slave.connectToMaster();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					slave.changeTemperature();
+					text1.setText(String.valueOf(slave.getMode()));
+					text3.setText(String.valueOf(slave.getRefreshRate()));
+					text4.setText(String.valueOf(slave.getCurrentTemperature()));
+					text5.setText(String.valueOf(slave.getTargetTemperature()));
+					text6.setText(String.valueOf(slave.getSpeed()));
+				}			
 				
 			}
 		}).start();
