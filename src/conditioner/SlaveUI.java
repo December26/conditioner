@@ -29,40 +29,56 @@ public class SlaveUI {
         	text2.setText("28");
         frame.add(text2);*/
 		
-        JLabel label3 = new JLabel("刷新频率");
+        JLabel label2 = new JLabel("刷新频率");
+        label2.setBounds(10,120,150,25);
+        frame.add(label2);
+        JLabel text2 = new JLabel();
+        text2.setBounds(150,120,165,25);
+        text2.setText(String.valueOf(slave.getRefreshRate()));
+        frame.add(text2);
+        
+        JLabel label3 = new JLabel("当前温度");
         label3.setBounds(10,170,150,25);
         frame.add(label3);
-        JTextField text3 = new JTextField(20);
+        JLabel text3 = new JLabel();
         text3.setBounds(150,170,165,25);
-        text3.setText(String.valueOf(slave.getRefreshRate()));
+        text3.setText(String.valueOf(slave.getCurrentTemperature()));
         frame.add(text3);
         
-        JLabel label4 = new JLabel("当前温度");
+        JLabel label4 = new JLabel("目标温度");
         label4.setBounds(10,220,150,25);
         frame.add(label4);
         JTextField text4 = new JTextField(20);
         text4.setBounds(150,220,165,25);
-        text4.setText(String.valueOf(slave.getCurrentTemperature()));
+        if(slave.getMode()==0)
+        	text4.setText("22");
+        else
+        	text4.setText("28");
         frame.add(text4);
         
-        JLabel label5 = new JLabel("目标温度");
+        JLabel label5 = new JLabel("风速");
         label5.setBounds(10,270,150,25);
         frame.add(label5);
         JTextField text5 = new JTextField(20);
         text5.setBounds(150,270,165,25);
-        if(slave.getMode()==0)
-        	text5.setText("22");
-        else
-        	text5.setText("28");
+        text5.setText(String.valueOf(slave.getSpeed()));
         frame.add(text5);
         
-        JLabel label6 = new JLabel("风速");
+        JLabel label6 = new JLabel("用电量");
         label6.setBounds(10,320,150,25);
         frame.add(label6);
-        JTextField text6 = new JTextField(20);
+        JLabel text6 = new JLabel();
         text6.setBounds(150,320,165,25);
-        text6.setText(String.valueOf(slave.getSpeed()));
+        text6.setText(String.valueOf(slave.getUsed()));
         frame.add(text6);
+        
+        JLabel label7 = new JLabel("当前电费");
+        label7.setBounds(10,370,150,25);
+        frame.add(label7);
+        JLabel text7 = new JLabel();
+        text7.setBounds(150,370,165,25);
+        text7.setText(String.valueOf(slave.getCost()));
+        frame.add(text7);
         
         new Thread(new Runnable() {
 			
@@ -85,14 +101,20 @@ public class SlaveUI {
 					}
 					slave.changeTemperature();
 					text1.setText(String.valueOf(slave.getMode()));
-					text3.setText(String.valueOf(slave.getRefreshRate()));
-					text4.setText(String.valueOf(slave.getCurrentTemperature()));
-					text5.setText(String.valueOf(slave.getTargetTemperature()));
-					text6.setText(String.valueOf(slave.getSpeed()));
+					text2.setText(String.valueOf(slave.getRefreshRate()));
+					text3.setText(String.valueOf(slave.getCurrentTemperature()));
+					text4.setText(String.valueOf(slave.getTargetTemperature()));
+					text5.setText(String.valueOf(slave.getSpeed()));
+					text6.setText(String.valueOf(slave.getUsed()));
+					text7.setText(String.valueOf(slave.getCost()));
 				}			
 				
 			}
 		}).start();
+
+        JButton button = new JButton("更改");
+        
+	
 	}
 	
 }
