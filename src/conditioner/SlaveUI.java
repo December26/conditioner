@@ -1,5 +1,8 @@
 package conditioner;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class SlaveUI {
@@ -113,7 +116,22 @@ public class SlaveUI {
 		}).start();
 
         JButton button = new JButton("¸ü¸Ä");
+        button.setBounds(200, 420, 100, 30);
+        frame.add(button);
         
+        button.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				slave.setMode(Integer.valueOf(text1.getText()));
+				slave.setCost(Integer.valueOf(text2.getText()));
+				slave.setCurrentTemperature(Double.valueOf(text3.getText()));
+				slave.setTargetTemperature(Double.valueOf(text4.getText()));
+				slave.setSpeed(Integer.valueOf(text5.getText()));
+				slave.setUsed(Double.valueOf(text6.getText()));
+				slave.setCost(Double.valueOf(text7.getText()));
+			}
+		});
 	
 	}
 	
