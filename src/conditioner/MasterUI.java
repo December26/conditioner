@@ -2,6 +2,10 @@ package conditioner;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -9,7 +13,11 @@ import javax.swing.JPanel;
 
 import org.dom4j.DocumentException;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 public class MasterUI {
+	private ServerSocket serverSocket = new ServerSocket(9999);
+	
 	public MasterUI() throws Exception {
 		Master master = new Master();
 		JFrame frame = new JFrame("中央空调");
@@ -42,6 +50,52 @@ public class MasterUI {
 			}
 		});
 		
+		view.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		log.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				while(true) {
+					try {
+						final Socket socket = serverSocket.accept();
+						System.out.println("连接成功");
+						
+						OutputStream outputStream = socket.getOutputStream();
+						outputStream.write("1,3,1,0,0".getBytes());
+						
+						InputStream inputStream = socket.getInputStream();
+				        byte buffer[] = new byte[6000];
+				        
+				        inputStream.read(buffer);
+				        System.out.println(new String(buffer));
+				        
+				        outputStream.close();
+				        inputStream.close();
+				        socket.close();
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				}
+				
+			}
+		}).start();
 	}
 	
 }

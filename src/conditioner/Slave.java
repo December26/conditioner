@@ -122,7 +122,9 @@ public class Slave {
 
 	public void connectToMaster() throws Exception {
 		
-		Socket socket = new Socket("10.128.207.133", 9999);
+		//Socket socket = new Socket("10.128.207.133", 9999);
+		Socket socket = new Socket("10.28.224.241", 9999);
+		//Socket socket = new Socket("10.206.40.8", 9999);
 		
 		System.out.println("连接成功");
 		
