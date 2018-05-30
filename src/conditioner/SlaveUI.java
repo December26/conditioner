@@ -95,11 +95,14 @@ public class SlaveUI {
 						e.printStackTrace();
 					}
 					slave.changeTemperature();
+					if(!text1.getText().equals(String.valueOf(slave.getMode())))
 					text1.setText(String.valueOf(slave.getMode()));
 					text2.setText(String.valueOf(slave.getRefreshRate()));
 					text3.setText(String.valueOf(slave.getCurrentTemperature()));
-					text4.setText(String.valueOf(slave.getTargetTemperature()));
-					text5.setText(String.valueOf(slave.getSpeed()));
+					if(!text4.getText().equals(String.valueOf(slave.getTargetTemperature())))
+						text4.setText(String.valueOf(slave.getTargetTemperature()));
+					if(!text5.getText().equals(String.valueOf(slave.getSpeed())))
+						text5.setText(String.valueOf(slave.getSpeed()));
 					text6.setText(String.valueOf(slave.getUsed()));
 					text7.setText(String.valueOf(slave.getCost()));
 				}			
