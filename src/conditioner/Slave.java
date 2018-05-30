@@ -51,9 +51,11 @@ public class Slave {
 		workTemperature();
 		if((mode == 0 && (targetTemperature < currentTemperature))||(mode == 1 && (currentTemperature > targetTemperature))) {
 			//环境温度达到了目标温度
-			lastSpeed = speed;
-			speed = 0;
-			flag = false;
+			if(speed != 0) {//第一次到达目标温度，记录到达时的风速
+				lastSpeed = speed;
+				speed = 0;
+				flag = false;
+			}			
 		}	
 			
 		if((mode == 0 && (currentTemperature - targetTemperature) >= 1)||(mode == 1 && (targetTemperature - currentTemperature) >= 1))
