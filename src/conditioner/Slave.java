@@ -49,7 +49,7 @@ public class Slave {
 		}
 		
 		workTemperature();
-		if((mode == 0 && (targetTemperature < currentTemperature))||(mode == 1 && (currentTemperature > targetTemperature))) {
+		/*if((mode == 0 && (targetTemperature < currentTemperature))||(mode == 1 && (currentTemperature > targetTemperature))) {
 			//环境温度达到了目标温度
 			if(speed != 0) {//第一次到达目标温度，记录到达时的风速
 				lastSpeed = speed;
@@ -58,12 +58,24 @@ public class Slave {
 			}			
 		}	
 			
-		if((mode == 0 && (currentTemperature - targetTemperature) >= 1)||(mode == 1 && (targetTemperature - currentTemperature) >= 1))
+		if((mode == 0 && (currentTemperature - targetTemperature) >= 1)||(mode == 1 && (targetTemperature - currentTemperature) >= 1)) {
 			//环境温度未达到目标温度
 			if(lastSpeed != 0) {
 				speed = lastSpeed;
 				flag = true;
-			}			
+			}
+		}*/
+		
+		if((mode == 0 && (targetTemperature < currentTemperature))||(mode == 1 && (currentTemperature > targetTemperature))) {
+			speed = 0;
+			flag = false;
+		}
+		
+		if((mode == 0 && (currentTemperature - targetTemperature) >= 1)||(mode == 1 && (targetTemperature - currentTemperature) >= 1)) {
+			speed = 3;
+			flag = true;
+		}
+						
 	}
 	
 	public void workTemperature() {
