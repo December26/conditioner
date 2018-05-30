@@ -19,34 +19,49 @@ public class Slave {
 	private double used;//用电量
 	private double cost;//费用
 	private String receive;
-	private String flag;
+	private boolean flag;
+	private int whether;//判断是否能够通过请求
 	
 	public Slave(int roomId) {
 		this.roomId = roomId;
-		currentTemperature = 25;
+		currentTemperature = 26.5;
 		targetTemperature = 22;
 		refreshRate = 1;
-		speed = 3;
+		speed = 1;
 		lastSpeed = 0;
 		mode = 0;
 		lastMode = 0;
+		flag = true;
+		whether = 2;
 	}
-	
+
 	public synchronized void changeTemperature() {
 		//每秒钟温度变化 
 		if(mode > lastMode)	targetTemperature = 28;
 		else if(mode < lastMode) targetTemperature = 22;
 		lastMode = mode;
 		
+		if(whether == 0) {//中央空调负载已满
+			speed = lastSpeed;
+			speed = 0;
+			flag = false;
+			System.out.println("中央空调负载已满");
+		}
+		
 		workTemperature();
-		if(Math.abs(currentTemperature-targetTemperature) <= 0.06*refreshRate) {//环境温度达到了目标温度
+		if((mode == 0 && (targetTemperature < currentTemperature))||(mode == 1 && (currentTemperature > targetTemperature))) {
+			//环境温度达到了目标温度
 			lastSpeed = speed;
 			speed = 0;
-		}
+			flag = false;
+		}	
 			
-		if(Math.abs(currentTemperature-targetTemperature) >= 1)//环境温度达到了目标温度
-			if(lastSpeed != 0)
+		if((mode == 0 && (currentTemperature - targetTemperature) >= 1)||(mode == 1 && (targetTemperature - currentTemperature) >= 1))
+			//环境温度未达到目标温度
+			if(lastSpeed != 0) {
 				speed = lastSpeed;
+				flag = true;
+			}			
 	}
 	
 	public void workTemperature() {
@@ -64,7 +79,7 @@ public class Slave {
 				//3档风温度变化曲线
 				currentTemperature = currentTemperature - 0.08*refreshRate;
 			}
-			else {
+			else if (speed == 0) {
 				//停止工作,环境自动升温变化曲线
 				currentTemperature = currentTemperature + 0.05*refreshRate;
 			}
@@ -83,7 +98,7 @@ public class Slave {
 				//3档风温度变化曲线
 				currentTemperature = currentTemperature + 0.08*refreshRate;
 			}
-			else {
+			else if (speed == 0) {
 				//停止工作，环境自动降温变化曲线
 				currentTemperature = currentTemperature - 0.05*refreshRate;
 			}			
@@ -99,7 +114,7 @@ public class Slave {
 		
 		OutputStream outputStream = socket.getOutputStream();
 		outputStream.write(sentToMaster().getBytes());
-		System.out.println(sentToMaster());
+		System.out.println(roomId+":   "+sentToMaster());
 		
 		/*InputStream inputStream = socket.getInputStream();
 		DataInputStream in = new DataInputStream(inputStream);
@@ -137,10 +152,10 @@ public class Slave {
 		String[] receiveArray = receive.split(",");
 		mode = Integer.valueOf(receiveArray[0]);
 		refreshRate = Integer.valueOf(receiveArray[1]);
-		flag = receiveArray[2];
+		whether = Integer.valueOf(receiveArray[2]);
 		used = Double.valueOf(receiveArray[3]);
 		cost = Double.valueOf(receiveArray[4]);
-		System.out.println(receive);
+		//System.out.println(receive);
 	}
 	
 	public int getRoomId() {
@@ -209,5 +224,13 @@ public class Slave {
 
 	public void receiveFromMater(String str) {
 		
+	}
+	
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 }

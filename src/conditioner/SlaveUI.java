@@ -20,17 +20,6 @@ public class SlaveUI {
         text1.setBounds(150,70,165,25);
         text1.setText(String.valueOf(slave.getMode()));
         frame.add(text1);
-        
-        /*JLabel label2 = new JLabel("缺省温度");
-        label2.setBounds(10,120,150,25);
-        frame.add(label2);
-        JTextField text2 = new JTextField(20);
-        text2.setBounds(150,120,165,25);
-        if(slave.getMode()==0)
-        	text2.setText("22");
-        else
-        	text2.setText("28");
-        frame.add(text2);*/
 		
         JLabel label2 = new JLabel("刷新频率");
         label2.setBounds(10,120,150,25);
@@ -92,12 +81,8 @@ public class SlaveUI {
 					
 					try {
 						Thread.sleep(slave.getRefreshRate()*1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					try {
-						slave.connectToMaster();
+						if(slave.isFlag())
+							slave.connectToMaster();
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
