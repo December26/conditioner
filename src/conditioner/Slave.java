@@ -172,6 +172,10 @@ public class Slave {
 		//System.out.println(receive);
 	}
 	
+	public void disconnectToMaster() {
+		speed = 4;
+	}
+	
 	public int getRoomId() {
 		return roomId;
 	}

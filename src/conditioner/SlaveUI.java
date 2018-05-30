@@ -2,8 +2,12 @@ package conditioner;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowListener;
 
 import javax.swing.*;
+
+import com.sun.glass.events.WindowEvent;
 
 public class SlaveUI {
 	public SlaveUI(int roomId) {
@@ -78,7 +82,10 @@ public class SlaveUI {
 			public void run() {
 				
 				while(true) {
-					
+					if(slave.getSpeed() == 4) {
+						System.out.println("0000000000");
+						break;
+					}
 					try {
 						Thread.sleep(slave.getRefreshRate()*1000);
 						if(slave.isFlag())
@@ -115,6 +122,59 @@ public class SlaveUI {
 				slave.setSpeed(Integer.valueOf(text5.getText()));
 				slave.setUsed(Double.valueOf(text6.getText()));
 				slave.setCost(Double.valueOf(text7.getText()));
+			}
+		});
+        
+        frame.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(java.awt.event.WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(java.awt.event.WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(java.awt.event.WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(java.awt.event.WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				// TODO Auto-generated method stub
+				slave.disconnectToMaster();
+        		try {
+					slave.connectToMaster();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+        		System.out.println("¶Ï¿ªÁ¬½Ó");
+        		//frame.dispose();
+			}
+			
+			@Override
+			public void windowClosed(java.awt.event.WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowActivated(java.awt.event.WindowEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	
