@@ -15,11 +15,12 @@ public class Slave {
 	private double targetTemperature;
 	private int speed;
 	private int lastSpeed;
+	private int setSpeed;
 	private int refreshRate;
 	private double used;//用电量
 	private double cost;//费用
 	private String receive;
-	private boolean flag;
+	private boolean flag;//是否连接
 	private int whether;//判断是否能够通过请求
 	
 	public Slave(int roomId) {
@@ -27,12 +28,13 @@ public class Slave {
 		currentTemperature = 26.5;
 		targetTemperature = 22;
 		refreshRate = 1;
-		speed = 1;
+		speed = 0;
 		lastSpeed = 0;
+		setSpeed = 0;
 		mode = 0;
 		lastMode = 0;
 		flag = true;
-		whether = 2;
+		whether = 0;
 	}
 
 	public synchronized void changeTemperature() {
@@ -42,7 +44,7 @@ public class Slave {
 		lastMode = mode;
 		
 		if(whether == 0) {//中央空调负载已满
-			speed = lastSpeed;
+			//speed = lastSpeed;
 			speed = 0;
 			flag = false;
 			System.out.println("中央空调负载已满");
@@ -66,14 +68,16 @@ public class Slave {
 			}
 		}*/
 		
-		if((mode == 0 && (currentTemperature < targetTemperature))||(mode == 1 && (currentTemperature > targetTemperature))) {
-			speed = 0;
-			flag = false;
-		}
-		
-		if((mode == 0 && (currentTemperature - targetTemperature) >= 1)||(mode == 1 && (targetTemperature - currentTemperature) >= 1)) {
-			speed = 3;
-			flag = true;
+		if(whether == 1) {
+			if((mode == 0 && (currentTemperature < targetTemperature))||(mode == 1 && (currentTemperature > targetTemperature))) {
+				speed = 0;
+				flag = false;
+			}
+			
+			if((mode == 0 && (currentTemperature - targetTemperature) >= 1)||(mode == 1 && (targetTemperature - currentTemperature) >= 1)) {
+				speed = setSpeed;
+				flag = true;
+			}
 		}
 						
 	}
@@ -122,10 +126,10 @@ public class Slave {
 
 	public void connectToMaster() throws Exception {
 		
-		//Socket socket = new Socket("10.128.207.133", 9999);
+		Socket socket = new Socket("10.128.206.220", 9999);
 		//Socket socket = new Socket("10.28.224.241", 9999);
 		//Socket socket = new Socket("10.206.40.8", 9999);
-		Socket socket = new Socket("10.8.164.10", 9999);
+		//Socket socket = new Socket("10.8.164.10", 9999);
 		
 		System.out.println("连接成功");
 		
@@ -254,4 +258,14 @@ public class Slave {
 	public void setFlag(boolean flag) {
 		this.flag = flag;
 	}
+
+	public int getSetSpeed() {
+		return setSpeed;
+	}
+
+	public void setSetSpeed(int setSpeed) {
+		this.setSpeed = setSpeed;
+	}
+	
+	
 }

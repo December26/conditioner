@@ -78,7 +78,7 @@ public class MasterUI {
 						System.out.println("连接成功");
 						
 						OutputStream outputStream = socket.getOutputStream();
-						outputStream.write("1,3,1,0,0".getBytes());
+						outputStream.write(master.SendToSlave().getBytes());
 						
 						InputStream inputStream = socket.getInputStream();
 				        byte buffer[] = new byte[6000];

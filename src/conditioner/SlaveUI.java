@@ -122,7 +122,7 @@ public class SlaveUI {
 				slave.setCost(Integer.valueOf(text2.getText()));
 				slave.setCurrentTemperature(Double.valueOf(text3.getText()));
 				slave.setTargetTemperature(Double.valueOf(text4.getText()));
-				slave.setSpeed(Integer.valueOf(text5.getText()));
+				slave.setSetSpeed(Integer.valueOf(text5.getText()));
 				slave.setUsed(Double.valueOf(text6.getText()));
 				slave.setCost(Double.valueOf(text7.getText()));
 			}

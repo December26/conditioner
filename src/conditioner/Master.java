@@ -20,6 +20,7 @@ public class Master {
 	private int roomId;//服务对象
 	private int defaultTemperature;//缺省温度
 	private int refreshRate;//刷新频率
+	private int whether;//是否服务
 	private SAXReader saxReader = new SAXReader();
 	private Document document = saxReader.read(new File("src/conditioner/config.xml"));
 	private Element rootElement = document.getRootElement();
@@ -33,7 +34,7 @@ public class Master {
 		roomId = Integer.valueOf(config.element("roomId").getText()).intValue();
 		defaultTemperature = Integer.valueOf(config.element("defaultTemperature").getText()).intValue();
 		refreshRate = Integer.valueOf(config.element("refreshRate").getText()).intValue();
-		
+		whether = 1;
 		writeXML();
 	}
 	
@@ -57,6 +58,10 @@ public class Master {
 			
 		}
 	}*/
+	
+	public String SendToSlave() {
+		return String.valueOf(mode)+','+String.valueOf(refreshRate)+','+String.valueOf(whether)+",0,0";
+	}
 	
 	public String getStatus() {
 		return status;
