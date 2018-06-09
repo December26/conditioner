@@ -82,9 +82,10 @@ public class MasterUI {
 						
 						InputStream inputStream = socket.getInputStream();
 				        byte buffer[] = new byte[6000];
-				        
 				        inputStream.read(buffer);
-				        System.out.println(new String(buffer));
+				        String receive = new String(buffer);
+				        System.out.println(receive);
+				        master.setSlave(receive);
 				        
 				        outputStream.close();
 				        inputStream.close();

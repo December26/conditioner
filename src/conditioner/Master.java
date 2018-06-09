@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -24,6 +27,8 @@ public class Master {
 	private SAXReader saxReader = new SAXReader();
 	private Document document = saxReader.read(new File("src/conditioner/config.xml"));
 	private Element rootElement = document.getRootElement();
+	
+	private List<Slave> slaves=new ArrayList<Slave>();
 	
 	public Master() throws Exception {
 						
@@ -58,6 +63,24 @@ public class Master {
 			
 		}
 	}*/
+	
+	public void setSlave(String receive) {
+		String[] receiveArray = receive.split(",");
+		int id = Integer.valueOf(receiveArray[0]);
+		boolean isExist = false;
+		
+		Iterator<Slave> it = slaves.iterator();
+		while(it.hasNext()) {
+			if(id == it.next().getRoomId()) {
+				it.next().setSpeed(Integer.valueOf(receiveArray[1]));
+				it.next().setTargetTemperature(Integer.valueOf(receiveArray[2]));
+				it.next().setCurrentTemperature(Integer.valueOf(receiveArray[3]));
+				isExist = true;
+			}
+		}
+		
+		if(!isExist)	slaves.add(new Slave(id));
+	}
 	
 	public String SendToSlave() {
 		return String.valueOf(mode)+','+String.valueOf(refreshRate)+','+String.valueOf(whether)+",0,0";
