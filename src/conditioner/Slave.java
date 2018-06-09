@@ -66,7 +66,7 @@ public class Slave {
 			}
 		}*/
 		
-		if((mode == 0 && (targetTemperature < currentTemperature))||(mode == 1 && (currentTemperature > targetTemperature))) {
+		if((mode == 0 && (currentTemperature < targetTemperature))||(mode == 1 && (currentTemperature > targetTemperature))) {
 			speed = 0;
 			flag = false;
 		}
@@ -123,8 +123,9 @@ public class Slave {
 	public void connectToMaster() throws Exception {
 		
 		//Socket socket = new Socket("10.128.207.133", 9999);
-		Socket socket = new Socket("10.28.224.241", 9999);
+		//Socket socket = new Socket("10.28.224.241", 9999);
 		//Socket socket = new Socket("10.206.40.8", 9999);
+		Socket socket = new Socket("10.8.164.10", 9999);
 		
 		System.out.println("连接成功");
 		
