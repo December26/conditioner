@@ -126,8 +126,8 @@ public class Slave {
 
 	public void connectToMaster() throws Exception {
 		
-		//Socket socket = new Socket("10.128.206.220", 9999);
-		Socket socket = new Socket("10.28.224.241", 9999);
+		Socket socket = new Socket("10.128.206.220", 9999);
+		//Socket socket = new Socket("10.28.224.241", 9999);
 		//Socket socket = new Socket("10.206.40.8", 9999);
 		//Socket socket = new Socket("10.8.164.10", 9999);
 		

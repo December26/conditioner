@@ -68,15 +68,18 @@ public class Master {
 		String[] receiveArray = receive.split(",");
 		int id = Integer.valueOf(receiveArray[0]);
 		boolean isExist = false;
-		
+		System.out.println(slaves.size());
 		//Iterator<Slave> it = slaves.iterator();
 		for(int i=0; i<slaves.size(); i++) {
+			System.out.println("id="+id);
+			System.out.println("roomId="+slaves.get(i).getRoomId());
 			if(id == slaves.get(i).getRoomId()) {
 				slaves.get(i).setSpeed(Integer.valueOf(receiveArray[1]));
 				slaves.get(i).setTargetTemperature(Integer.valueOf(receiveArray[2]));
 				slaves.get(i).setCurrentTemperature(Integer.valueOf(receiveArray[3]));
 				if(Integer.valueOf(receiveArray[1])==4)	slaves.remove(i);
 				isExist = true;
+				System.out.println("22222");
 			}
 		}
 		

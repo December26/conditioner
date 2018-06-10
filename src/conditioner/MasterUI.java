@@ -54,7 +54,7 @@ public class MasterUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new viewUI(master);
+				new ViewUI(master);
 				
 			}
 		});
@@ -86,7 +86,6 @@ public class MasterUI {
 				        String receive = new String(buffer);
 				        System.out.println(receive);
 				        master.setSlave(receive);
-				        
 				        outputStream.close();
 				        inputStream.close();
 				        socket.close();
