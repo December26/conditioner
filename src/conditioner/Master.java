@@ -28,7 +28,7 @@ public class Master {
 	private Document document = saxReader.read(new File("src/conditioner/config.xml"));
 	private Element rootElement = document.getRootElement();
 	
-	private List<Slave> slaves=new ArrayList<Slave>();
+	public List<Slave> slaves=new ArrayList<Slave>();
 	
 	public Master() throws Exception {
 						
@@ -68,26 +68,14 @@ public class Master {
 		String[] receiveArray = receive.split(",");
 		int id = Integer.valueOf(receiveArray[0]);
 		boolean isExist = false;
-<<<<<<< HEAD
 		System.out.println(slaves.size());
 		//Iterator<Slave> it = slaves.iterator();
 		for(int i=0; i<slaves.size(); i++) {
-			System.out.println("id="+id);
-			System.out.println("roomId="+slaves.get(i).getRoomId());
 			if(id == slaves.get(i).getRoomId()) {
 				slaves.get(i).setSpeed(Integer.valueOf(receiveArray[1]));
 				slaves.get(i).setTargetTemperature(Integer.valueOf(receiveArray[2]));
 				slaves.get(i).setCurrentTemperature(Integer.valueOf(receiveArray[3]));
 				if(Integer.valueOf(receiveArray[1])==4)	slaves.remove(i);
-=======
-		
-		Iterator<Slave> it = slaves.iterator();
-		while(it.hasNext()) {
-			if(id == it.next().getRoomId()) {
-				it.next().setSpeed(Integer.valueOf(receiveArray[1]));
-				it.next().setTargetTemperature(Integer.valueOf(receiveArray[2]));
-				it.next().setCurrentTemperature(Integer.valueOf(receiveArray[3]));
->>>>>>> parent of 9b236f0... viewUI
 				isExist = true;
 				System.out.println("22222");
 			}

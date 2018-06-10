@@ -54,11 +54,7 @@ public class MasterUI {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 				new ViewUI(master);
-=======
-				// TODO Auto-generated method stub
->>>>>>> parent of 9b236f0... viewUI
 				
 			}
 		});
