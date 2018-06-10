@@ -67,14 +67,17 @@ public class Master {
 	public void setSlave(String receive) {
 		String[] receiveArray = receive.split(",");
 		int id = Integer.valueOf(receiveArray[0]);
+		System.out.println(receiveArray[3]);
 		boolean isExist = false;
 		System.out.println(slaves.size());
 		//Iterator<Slave> it = slaves.iterator();
 		for(int i=0; i<slaves.size(); i++) {
 			if(id == slaves.get(i).getRoomId()) {
+				System.out.println(slaves.get(i).getRoomId());
 				slaves.get(i).setSpeed(Integer.valueOf(receiveArray[1]));
-				slaves.get(i).setTargetTemperature(Integer.valueOf(receiveArray[2]));
-				slaves.get(i).setCurrentTemperature(Integer.valueOf(receiveArray[3]));
+				slaves.get(i).setTargetTemperature(Double.valueOf(receiveArray[2]));
+				slaves.get(i).setCurrentTemperature(Double.valueOf(receiveArray[3]));
+				System.out.println(receiveArray[3]);
 				if(Integer.valueOf(receiveArray[1])==4)	slaves.remove(i);
 				isExist = true;
 				System.out.println("22222");

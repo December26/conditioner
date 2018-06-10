@@ -9,6 +9,7 @@ import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.dom4j.DocumentException;
@@ -41,6 +42,34 @@ public class MasterUI {
 		frame.add(setting);
 		frame.add(view);
 		frame.add(log);
+		
+		JLabel label1 = new JLabel("房间号:");
+        label1.setBounds(300,70,150,25);
+        frame.add(label1);
+        JLabel text1 = new JLabel();
+        text1.setBounds(350,70,165,25);
+        frame.add(text1);
+        
+        JLabel label2 = new JLabel("风速:");
+        label2.setBounds(300,120,150,25);
+        frame.add(label2);
+        JLabel text2 = new JLabel();
+        text2.setBounds(350,120,165,25);
+        frame.add(text2);
+        
+        JLabel label3 = new JLabel("目标温度:");
+        label3.setBounds(300,170,150,25);
+        frame.add(label3);
+        JLabel text3 = new JLabel();
+        text3.setBounds(350,170,165,25);
+        frame.add(text3);
+        
+        JLabel label4 = new JLabel("当前温度:");
+        label4.setBounds(300,220,150,25);
+        frame.add(label4);
+        JLabel text4 = new JLabel();
+        text4.setBounds(350,220,165,25);
+        frame.add(text4);
 		
 		setting.addActionListener(new ActionListener() {
 			
@@ -89,6 +118,23 @@ public class MasterUI {
 				        outputStream.close();
 				        inputStream.close();
 				        socket.close();
+				        
+				        StringBuilder roomIDs = new StringBuilder(" ");
+						StringBuilder speeds = new StringBuilder(" ");
+						StringBuilder targets = new StringBuilder(" ");
+						StringBuilder currents = new StringBuilder(" ");
+						for(int i=0; i<master.slaves.size(); i++) {
+							roomIDs = roomIDs.append(String.valueOf(master.slaves.get(i).getRoomId())+"        ");
+							speeds = speeds.append(String.valueOf(master.slaves.get(i).getSpeed())+"        ");
+							targets = targets.append(String.valueOf(master.slaves.get(i).getTargetTemperature())+"        ");
+							currents = currents.append(String.valueOf(master.slaves.get(i).getCurrentTemperature())+"        ");
+						}
+						
+						text1.setText(roomIDs.toString());
+						text2.setText(speeds.toString());
+						text3.setText(targets.toString());
+						text4.setText(currents.toString());
+				        
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
