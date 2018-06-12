@@ -43,7 +43,7 @@ public class MasterUI {
 		frame.add(view);
 		frame.add(log);
 		
-		JLabel label1 = new JLabel("房间号:");
+		/*JLabel label1 = new JLabel("房间号:");
         label1.setBounds(300,70,150,25);
         frame.add(label1);
         JLabel text1 = new JLabel();
@@ -69,7 +69,7 @@ public class MasterUI {
         frame.add(label4);
         JLabel text4 = new JLabel();
         text4.setBounds(350,220,165,25);
-        frame.add(text4);
+        frame.add(text4);*/
 		
 		setting.addActionListener(new ActionListener() {
 			
@@ -122,7 +122,7 @@ public class MasterUI {
 				        inputStream.close();
 				        socket.close();
 				        
-				        StringBuilder roomIDs = new StringBuilder(" ");
+				        /*StringBuilder roomIDs = new StringBuilder(" ");
 						StringBuilder speeds = new StringBuilder(" ");
 						StringBuilder targets = new StringBuilder(" ");
 						StringBuilder currents = new StringBuilder(" ");
@@ -136,7 +136,7 @@ public class MasterUI {
 						text1.setText(roomIDs.toString());
 						text2.setText(speeds.toString());
 						text3.setText(targets.toString());
-						text4.setText(currents.toString());
+						text4.setText(currents.toString());*/
 				        
 					} catch (Exception e) {
 						// TODO: handle exception
