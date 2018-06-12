@@ -160,7 +160,12 @@ public class SlaveUI {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent e) {
 				// TODO Auto-generated method stub
-				slave.disconnectToMaster();
+				try {
+					slave.disconnectToMaster();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
         		System.out.println("¶Ï¿ªÁ¬½Ó");
         		//frame.dispose();
 			}

@@ -35,6 +35,8 @@ public class Slave {
 		lastMode = 0;
 		flag = true;
 		whether = 0;
+		used = 0;
+		cost = 0;
 	}
 
 	public synchronized void changeTemperature() throws Exception {
@@ -126,7 +128,7 @@ public class Slave {
 		
 	}
 
-	public void connectToMaster() throws Exception {
+	public synchronized void connectToMaster() throws Exception {
 		
 		Socket socket = new Socket("10.128.206.220", 9999);
 		//Socket socket = new Socket("10.28.224.241", 9999);
@@ -177,8 +179,9 @@ public class Slave {
 		//System.out.println(receive);
 	}
 	
-	public void disconnectToMaster() {
+	public void disconnectToMaster() throws Exception {
 		speed = 4;
+		connectToMaster();
 	}
 	
 	public int getRoomId() {

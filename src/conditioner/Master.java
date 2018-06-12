@@ -25,6 +25,9 @@ public class Master {
 	private int refreshRate;//刷新频率
 	private int whether;//是否服务
 	private int workingNumber;//当前工作数
+	
+	private double used;
+	private double cost;
 
 	private SAXReader saxReader = new SAXReader();
 	private Document document = saxReader.read(new File("src/conditioner/config.xml"));
@@ -67,7 +70,7 @@ public class Master {
 		}
 	}*/
 	
-	public void setSlave(String receive) {
+	public synchronized void setSlave(String receive) {
 		String[] receiveArray = receive.split(",");
 		int id = Integer.valueOf(receiveArray[0]);
 		System.out.println(receiveArray[3]);
@@ -80,7 +83,27 @@ public class Master {
 				slaves.get(i).setSpeed(Integer.valueOf(receiveArray[1]));
 				slaves.get(i).setTargetTemperature(Double.valueOf(receiveArray[2]));
 				slaves.get(i).setCurrentTemperature(Double.valueOf(receiveArray[3]));
+				
 				whether = slaves.get(i).getWhether();
+				
+				int speed = Integer.valueOf(receiveArray[1]);
+				switch (speed) {
+				case 1:
+					used = slaves.get(i).getUsed()+1.3*slaves.get(i).getRefreshRate()/60;					
+					break;
+				case 2:
+					used = slaves.get(i).getUsed()+1.0*slaves.get(i).getRefreshRate()/60;
+					break;
+				case 3:
+					used = slaves.get(i).getUsed()+0.8*slaves.get(i).getRefreshRate()/60;
+					break;
+
+				default:
+					break;
+				}
+				cost = used*5;
+				slaves.get(i).setUsed(used);
+				slaves.get(i).setCost(cost);
 				if(Integer.valueOf(receiveArray[1])==4)	slaves.remove(i);
 				isExist = true;
 			}
@@ -89,14 +112,14 @@ public class Master {
 		if(!isExist)	slaves.add(new Slave(id));
 	}
 	
-	public String SendToSlave() {
+	public synchronized String SendToSlave() {
 		//if(workingNumber<3) whether = 1;
 		//else	whether = 0;
 		System.out.println("workingNumber："+workingNumber);
-		return String.valueOf(mode)+','+String.valueOf(refreshRate)+','+String.valueOf(whether)+",0,0";
+		return String.valueOf(mode)+','+String.valueOf(refreshRate)+','+String.valueOf(whether)+","+String.format("%.2f",used )+","+String.format("%.2f", cost);
 	}
 	
-	public void whetherWork() {
+	public synchronized void whetherWork() {
 		workingNumber = 0;
 		for(int i=0; i<slaves.size(); i++) {
 			if(slaves.get(i).getSpeed()>0&&slaves.get(i).getSpeed()<4)
