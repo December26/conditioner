@@ -24,6 +24,7 @@ public class Master {
 	private int defaultTemperature;//缺省温度
 	private int refreshRate;//刷新频率
 	private int whether;//是否服务
+	private int workingNumber;//当前工作数
 
 	private SAXReader saxReader = new SAXReader();
 	private Document document = saxReader.read(new File("src/conditioner/config.xml"));
@@ -41,6 +42,7 @@ public class Master {
 		defaultTemperature = Integer.valueOf(config.element("defaultTemperature").getText()).intValue();
 		refreshRate = Integer.valueOf(config.element("refreshRate").getText()).intValue();
 		whether = 1;
+		workingNumber = 0;
 		writeXML();
 	}
 	
@@ -78,10 +80,9 @@ public class Master {
 				slaves.get(i).setSpeed(Integer.valueOf(receiveArray[1]));
 				slaves.get(i).setTargetTemperature(Double.valueOf(receiveArray[2]));
 				slaves.get(i).setCurrentTemperature(Double.valueOf(receiveArray[3]));
-				System.out.println(receiveArray[3]);
+				whether = slaves.get(i).getWhether();
 				if(Integer.valueOf(receiveArray[1])==4)	slaves.remove(i);
 				isExist = true;
-				System.out.println("22222");
 			}
 		}
 		
@@ -89,7 +90,28 @@ public class Master {
 	}
 	
 	public String SendToSlave() {
+		//if(workingNumber<3) whether = 1;
+		//else	whether = 0;
+		System.out.println("workingNumber："+workingNumber);
 		return String.valueOf(mode)+','+String.valueOf(refreshRate)+','+String.valueOf(whether)+",0,0";
+	}
+	
+	public void whetherWork() {
+		workingNumber = 0;
+		for(int i=0; i<slaves.size(); i++) {
+			if(slaves.get(i).getSpeed()>0&&slaves.get(i).getSpeed()<4)
+				workingNumber++;
+		}
+		
+		for(int i=0; i<slaves.size(); i++) {
+			if(workingNumber < 3)	slaves.get(i).setWhether(1);
+			else {
+				if(slaves.get(i).getSpeed()>0&&slaves.get(i).getSpeed()<4)
+					slaves.get(i).setWhether(1);
+				else
+					slaves.get(i).setWhether(0);
+			}
+		}
 	}
 	
 	public String getStatus() {

@@ -28,7 +28,7 @@ public class Slave {
 		currentTemperature = 26.5;
 		targetTemperature = 22;
 		refreshRate = 1;
-		speed = 2;
+		speed = 0;
 		lastSpeed = 0;
 		setSpeed = 2;
 		mode = 0;
@@ -37,7 +37,7 @@ public class Slave {
 		whether = 0;
 	}
 
-	public synchronized void changeTemperature() {
+	public synchronized void changeTemperature() throws Exception {
 		//每秒钟温度变化 
 		if(mode > lastMode)	targetTemperature = 28;
 		else if(mode < lastMode) targetTemperature = 22;
@@ -46,6 +46,7 @@ public class Slave {
 		if(whether == 0) {//中央空调负载已满
 			//speed = lastSpeed;
 			speed = 0;
+			connectToMaster();
 			flag = false;
 			System.out.println("中央空调负载已满");
 		}
@@ -71,6 +72,7 @@ public class Slave {
 		if(whether == 1) {
 			if((mode == 0 && (currentTemperature < targetTemperature))||(mode == 1 && (currentTemperature > targetTemperature))) {
 				speed = 0;
+				connectToMaster();
 				flag = false;
 			}
 			
@@ -261,6 +263,14 @@ public class Slave {
 
 	public void setSetSpeed(int setSpeed) {
 		this.setSpeed = setSpeed;
+	}
+
+	public int getWhether() {
+		return whether;
+	}
+
+	public void setWhether(int whether) {
+		this.whether = whether;
 	}
 	
 	

@@ -106,18 +106,20 @@ public class MasterUI {
 						final Socket socket = serverSocket.accept();
 						System.out.println("连接成功");
 						
-						if(master.slaves.size()>3)	master.setWhether(0);
-						else master.setWhether(1);
-						
-						OutputStream outputStream = socket.getOutputStream();
-						outputStream.write(master.SendToSlave().getBytes());
-						
 						InputStream inputStream = socket.getInputStream();
 				        byte buffer[] = new byte[6000];
 				        inputStream.read(buffer);
 				        String receive = new String(buffer);
-				        System.out.println(receive);
+				        //System.out.println(receive);
+				        
+				        master.whetherWork();
 				        master.setSlave(receive);
+				        
+						
+						OutputStream outputStream = socket.getOutputStream();
+						outputStream.write(master.SendToSlave().getBytes());
+						System.out.println(master.SendToSlave());
+						
 				        outputStream.close();
 				        inputStream.close();
 				        socket.close();

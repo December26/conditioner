@@ -43,7 +43,7 @@ public class ViewUI {
         text4.setBounds(150,220,300,25);
         frame.add(text4);
         
-        JLabel label5 = new JLabel("当前连接数:"+"  0");
+        JLabel label5 = new JLabel("当前连接数:"+"0");
         label5.setBounds(10,300,150,25);
         frame.add(label5);
         

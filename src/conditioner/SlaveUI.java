@@ -92,7 +92,12 @@ public class SlaveUI {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					slave.changeTemperature();
+					try {
+						slave.changeTemperature();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					if(!text1.getText().equals(String.valueOf(slave.getMode())))
 					text1.setText(String.valueOf(slave.getMode()));
 					text2.setText(String.valueOf(slave.getRefreshRate()));
