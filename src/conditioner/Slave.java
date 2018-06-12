@@ -28,7 +28,7 @@ public class Slave {
 		currentTemperature = 26.5;
 		targetTemperature = 22;
 		refreshRate = 1;
-		speed = 0;
+		speed = 2;
 		lastSpeed = 0;
 		setSpeed = 0;
 		mode = 0;
@@ -161,7 +161,7 @@ public class Slave {
 	
 	public String sentToMaster() {
 		return String.valueOf(roomId)+','+String.valueOf(speed)+','+String.valueOf(targetTemperature)+
-				','+String.valueOf(currentTemperature);
+				','+ String.format("%.2f", currentTemperature);
 	} 
 	
 	public void receiveFromMaster() {

@@ -106,6 +106,9 @@ public class MasterUI {
 						final Socket socket = serverSocket.accept();
 						System.out.println("连接成功");
 						
+						if(master.slaves.size()>3)	master.setWhether(0);
+						else master.setWhether(1);
+						
 						OutputStream outputStream = socket.getOutputStream();
 						outputStream.write(master.SendToSlave().getBytes());
 						

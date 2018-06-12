@@ -24,6 +24,7 @@ public class Master {
 	private int defaultTemperature;//缺省温度
 	private int refreshRate;//刷新频率
 	private int whether;//是否服务
+
 	private SAXReader saxReader = new SAXReader();
 	private Document document = saxReader.read(new File("src/conditioner/config.xml"));
 	private Element rootElement = document.getRootElement();
@@ -129,6 +130,14 @@ public class Master {
 
 	public void setRefreshRate(int refreshRate) {
 		this.refreshRate = refreshRate;
+	}
+	
+	public int getWhether() {
+		return whether;
+	}
+
+	public void setWhether(int whether) {
+		this.whether = whether;
 	}
 
 }
