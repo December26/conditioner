@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowListener;
+import java.util.Currency;
 
 import javax.swing.*;
 
@@ -38,7 +39,7 @@ public class SlaveUI {
         frame.add(label3);
         JLabel text3 = new JLabel();
         text3.setBounds(150,170,165,25);
-        text3.setText(String.valueOf(slave.getCurrentTemperature()));
+        text3.setText(String.format("%.2f", slave.getCurrentTemperature()));
         frame.add(text3);
         
         JLabel label4 = new JLabel("Ä¿±êÎÂ¶È");
@@ -98,7 +99,7 @@ public class SlaveUI {
 					if(!text1.getText().equals(String.valueOf(slave.getMode())))
 					text1.setText(String.valueOf(slave.getMode()));
 					text2.setText(String.valueOf(slave.getRefreshRate()));
-					text3.setText(String.valueOf(slave.getCurrentTemperature()));
+					text3.setText(String.format("%.2f", slave.getCurrentTemperature()));
 					if(!text4.getText().equals(String.valueOf(slave.getTargetTemperature())))
 						text4.setText(String.valueOf(slave.getTargetTemperature()));
 					if(!text5.getText().equals(String.valueOf(slave.getSpeed())))

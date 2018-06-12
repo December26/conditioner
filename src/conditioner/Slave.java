@@ -30,7 +30,7 @@ public class Slave {
 		refreshRate = 1;
 		speed = 2;
 		lastSpeed = 0;
-		setSpeed = 0;
+		setSpeed = 2;
 		mode = 0;
 		lastMode = 0;
 		flag = true;
