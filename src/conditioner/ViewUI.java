@@ -43,6 +43,10 @@ public class ViewUI {
         text4.setBounds(150,220,300,25);
         frame.add(text4);
         
+        JLabel label5 = new JLabel("当前连接数:"+"  0");
+        label5.setBounds(10,300,150,25);
+        frame.add(label5);
+        
         new Thread(new Runnable() {
 			
 			@Override
@@ -69,6 +73,7 @@ public class ViewUI {
 					text2.setText(speeds.toString());
 					text3.setText(targets.toString());
 					text4.setText(currents.toString());
+					label5.setText("当前连接数:"+master.slaves.size());
 					//System.out.println("更新");
 				}
 				
