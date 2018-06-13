@@ -106,6 +106,9 @@ public class MasterUI {
 						final Socket socket = serverSocket.accept();
 						System.out.println("连接成功");
 						
+						
+						
+						
 						InputStream inputStream = socket.getInputStream();
 				        byte buffer[] = new byte[6000];
 				        inputStream.read(buffer);
@@ -116,30 +119,15 @@ public class MasterUI {
 				        master.setSlave(receive);
 				        master.calculate();
 				        
-						
-						OutputStream outputStream = socket.getOutputStream();
+				        OutputStream outputStream = socket.getOutputStream();
 						outputStream.write(master.SendToSlave().getBytes());
 						System.out.println(master.SendToSlave());
+						
 						
 				        outputStream.close();
 				        inputStream.close();
 				        socket.close();
 				        
-				        /*StringBuilder roomIDs = new StringBuilder(" ");
-						StringBuilder speeds = new StringBuilder(" ");
-						StringBuilder targets = new StringBuilder(" ");
-						StringBuilder currents = new StringBuilder(" ");
-						for(int i=0; i<master.slaves.size(); i++) {
-							roomIDs = roomIDs.append(String.valueOf(master.slaves.get(i).getRoomId())+"        ");
-							speeds = speeds.append(String.valueOf(master.slaves.get(i).getSpeed())+"        ");
-							targets = targets.append(String.valueOf(master.slaves.get(i).getTargetTemperature())+"        ");
-							currents = currents.append(String.valueOf(master.slaves.get(i).getCurrentTemperature())+"        ");
-						}
-						
-						text1.setText(roomIDs.toString());
-						text2.setText(speeds.toString());
-						text3.setText(targets.toString());
-						text4.setText(currents.toString());*/
 				        
 					} catch (Exception e) {
 						// TODO: handle exception
