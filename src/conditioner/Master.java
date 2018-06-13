@@ -73,29 +73,33 @@ public class Master {
 	public synchronized void setSlave(String receive) {
 		String[] receiveArray = receive.split(",");
 		int id = Integer.valueOf(receiveArray[0]);
-		System.out.println(receiveArray[3]);
+		roomId = Integer.valueOf(receiveArray[0]);
+		//System.out.println(receiveArray[3]);
 		boolean isExist = false;
-		System.out.println(slaves.size());
+		//System.out.println(slaves.size());
 		//Iterator<Slave> it = slaves.iterator();
 		for(int i=0; i<slaves.size(); i++) {
 			if(id == slaves.get(i).getRoomId()) {
-				System.out.println(slaves.get(i).getRoomId());
+				//System.out.println(slaves.get(i).getRoomId());
 				slaves.get(i).setSpeed(Integer.valueOf(receiveArray[1]));
 				slaves.get(i).setTargetTemperature(Double.valueOf(receiveArray[2]));
 				slaves.get(i).setCurrentTemperature(Double.valueOf(receiveArray[3]));
 				
 				whether = slaves.get(i).getWhether();
 				
-				int speed = Integer.valueOf(receiveArray[1]);
+				/*int speed = Integer.valueOf(receiveArray[1]);
 				switch (speed) {
 				case 1:
-					used = slaves.get(i).getUsed()+1.3*slaves.get(i).getRefreshRate()/60;					
+					used = slaves.get(i).getUsed()+1.3*slaves.get(i).getRefreshRate()/60;
+					//System.out.println("一档计费");
 					break;
 				case 2:
 					used = slaves.get(i).getUsed()+1.0*slaves.get(i).getRefreshRate()/60;
+					//System.out.println("二档计费");
 					break;
 				case 3:
 					used = slaves.get(i).getUsed()+0.8*slaves.get(i).getRefreshRate()/60;
+					//System.out.println("三档计费");
 					break;
 
 				default:
@@ -103,20 +107,28 @@ public class Master {
 				}
 				cost = used*5;
 				slaves.get(i).setUsed(used);
-				slaves.get(i).setCost(cost);
+				slaves.get(i).setCost(cost);*/
 				if(Integer.valueOf(receiveArray[1])==4)	slaves.remove(i);
 				isExist = true;
 			}
 		}
 		
-		if(!isExist)	slaves.add(new Slave(id));
+		if(!isExist) {	
+			slaves.add(new Slave(id));
+			whether = 0;
+		}
 	}
 	
 	public synchronized String SendToSlave() {
 		//if(workingNumber<3) whether = 1;
 		//else	whether = 0;
 		System.out.println("workingNumber："+workingNumber);
-		return String.valueOf(mode)+','+String.valueOf(refreshRate)+','+String.valueOf(whether)+","+String.format("%.2f",used )+","+String.format("%.2f", cost);
+		for(int i = 0; i<slaves.size(); i++) {
+			if(roomId == slaves.get(i).getRoomId()) {
+				return String.valueOf(mode)+','+String.valueOf(refreshRate)+','+String.valueOf(whether)+","+String.format("%.2f",slaves.get(i).getUsed() )+","+String.format("%.2f", slaves.get(i).getCost());
+			}
+		}
+		return String.valueOf(mode)+','+String.valueOf(refreshRate)+','+String.valueOf(whether)+",0,0";
 	}
 	
 	public synchronized void whetherWork() {
@@ -134,6 +146,34 @@ public class Master {
 				else
 					slaves.get(i).setWhether(0);
 			}
+		}
+	}
+	
+	public synchronized void calculate() {
+		for (int i = 0; i < slaves.size(); i++) {
+				switch (slaves.get(i).getSpeed()) {
+				case 1:
+					used = slaves.get(i).getUsed()+1.3*slaves.get(i).getRefreshRate()/60;
+					//System.out.println("一档计费");
+					break;
+				case 2:
+					used = slaves.get(i).getUsed()+1.0*slaves.get(i).getRefreshRate()/60;
+					//System.out.println("二档计费");
+					break;
+				case 3:
+					used = slaves.get(i).getUsed()+0.8*slaves.get(i).getRefreshRate()/60;
+					//System.out.println("三档计费");
+					break;
+
+				default:
+					used = slaves.get(i).getUsed();
+					break;
+				}
+				cost = used*5;
+				slaves.get(i).setUsed(used);
+				slaves.get(i).setCost(cost);
+				used = 0;
+				cost = 0;
 		}
 	}
 	

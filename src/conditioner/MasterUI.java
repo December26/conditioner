@@ -112,8 +112,9 @@ public class MasterUI {
 				        String receive = new String(buffer);
 				        //System.out.println(receive);
 				        
-				        master.whetherWork();
+				        master.whetherWork();				        
 				        master.setSlave(receive);
+				        master.calculate();
 				        
 						
 						OutputStream outputStream = socket.getOutputStream();

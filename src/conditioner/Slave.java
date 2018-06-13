@@ -139,7 +139,7 @@ public class Slave {
 		
 		OutputStream outputStream = socket.getOutputStream();
 		outputStream.write(sentToMaster().getBytes());
-		//System.out.println(roomId+":   "+sentToMaster());
+		System.out.println(roomId+":   "+sentToMaster());
 		
 		InputStream inputStream =  socket.getInputStream();
         byte buffer[] = new byte[6000];
