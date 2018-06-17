@@ -97,6 +97,7 @@ public class MasterUI {
 				// TODO Auto-generated method stub
 				try {
 					//master.readReport();
+					new LogUI(master);
 					master.writeReport();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block

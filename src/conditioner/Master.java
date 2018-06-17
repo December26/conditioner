@@ -104,6 +104,7 @@ public class Master {
 							reportForms.get(j).setTargetTemperature(slaves.get(i).getTargetTemperature());
 							reportForms.get(j).setCost(slaves.get(i).getCost());
 							reportForms.get(j).setEndTime(new Date().toString());
+							break;
 						}
 						else if(slaves.get(i).getSpeed()==4)
 							reportForms.get(j).setEndTime(new Date().toString());
@@ -217,6 +218,21 @@ public class Master {
 		
 		reader.close();
 		inputStream.close();
+	}
+	
+	public Object[][] info(){
+		Object[][] information = new Object[50][7];
+
+		for(int i=0;i<reportForms.size();i++) {
+			information[i][0] = reportForms.get(i).getRoomId();
+			information[i][1] = reportForms.get(i).getStartTime();
+			information[i][2] = reportForms.get(i).getEndTime();
+			information[i][3] = reportForms.get(i).getCurrentTemperature();
+			information[i][4] = reportForms.get(i).getTargetTemperature();
+			information[i][5] = reportForms.get(i).getSpeed();
+			information[i][6] = String.format("%.2f", reportForms.get(i).getCost());
+		}
+		return information;
 	}
 	
 	public String getStatus() {
