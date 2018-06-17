@@ -2,6 +2,7 @@ package conditioner;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
@@ -21,6 +22,7 @@ public class MasterUI {
 	
 	public MasterUI() throws Exception {
 		Master master = new Master();
+		master.readReport();
 		JFrame frame = new JFrame("ÖÐÑë¿Õµ÷");
 		frame.setLayout(null);
 		frame.setBounds(100, 100, 1000, 800);
@@ -93,7 +95,13 @@ public class MasterUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				try {
+					//master.readReport();
+					master.writeReport();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -123,6 +131,8 @@ public class MasterUI {
 						outputStream.write(master.SendToSlave().getBytes());
 						System.out.println(master.SendToSlave());
 						
+						/*master.readReport();
+						master.writeReport();*/
 						
 				        outputStream.close();
 				        inputStream.close();

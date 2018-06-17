@@ -1,13 +1,19 @@
 package conditioner;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,6 +40,7 @@ public class Master {
 	private Element rootElement = document.getRootElement();
 	
 	public List<Slave> slaves=new ArrayList<Slave>();
+	public List<ReportForm> reportForms = new ArrayList<ReportForm>();
 	
 	public Master() throws Exception {
 						
@@ -87,35 +94,37 @@ public class Master {
 				
 				whether = slaves.get(i).getWhether();
 				
-				/*int speed = Integer.valueOf(receiveArray[1]);
-				switch (speed) {
-				case 1:
-					used = slaves.get(i).getUsed()+1.3*slaves.get(i).getRefreshRate()/60;
-					//System.out.println("一档计费");
-					break;
-				case 2:
-					used = slaves.get(i).getUsed()+1.0*slaves.get(i).getRefreshRate()/60;
-					//System.out.println("二档计费");
-					break;
-				case 3:
-					used = slaves.get(i).getUsed()+0.8*slaves.get(i).getRefreshRate()/60;
-					//System.out.println("三档计费");
-					break;
-
-				default:
-					break;
-				}
-				cost = used*5;
-				slaves.get(i).setUsed(used);
-				slaves.get(i).setCost(cost);*/
 				if(Integer.valueOf(receiveArray[1])==4)	slaves.remove(i);
 				isExist = true;
+				
+				for(int j=reportForms.size()-1; j>=0; j--) {
+					if(reportForms.get(j).getRoomId() == id) {
+						if(slaves.get(i).getSpeed()>0&&slaves.get(i).getSpeed()<4) {
+							reportForms.get(j).setSpeed(slaves.get(i).getSpeed());
+							reportForms.get(j).setTargetTemperature(slaves.get(i).getTargetTemperature());
+							reportForms.get(j).setCost(slaves.get(i).getCost());
+							reportForms.get(j).setEndTime(new Date().toString());
+						}
+						else if(slaves.get(i).getSpeed()==4)
+							reportForms.get(j).setEndTime(new Date().toString());
+						System.out.println(reportForms.get(j).toString());
+					}
+				}
 			}
 		}
 		
 		if(!isExist) {	
-			slaves.add(new Slave(id));
+			Slave slave = new Slave(id);	
+			slaves.add(slave);
 			whether = 0;
+			
+			ReportForm reportForm = new ReportForm();
+			reportForm.setRoomId(id);
+			reportForm.setCurrentTemperature(slave.getCurrentTemperature());
+			reportForm.setSpeed(0);
+			reportForm.setStartTime(new Date().toString());
+			System.out.println(reportForm.getStartTime());
+			reportForms.add(reportForm);
 		}
 	}
 	
@@ -175,6 +184,39 @@ public class Master {
 				used = 0;
 				cost = 0;
 		}
+	}
+	
+	public void writeReport() throws IOException {
+		OutputStream outputStream = new FileOutputStream("src/conditioner/report.txt");
+		
+		for (int i = 0; i < reportForms.size(); i++) {
+			outputStream.write(reportForms.get(i).toString().getBytes());
+		}
+		
+		outputStream.close();
+	}
+	
+	public void readReport() throws IOException {
+		InputStream inputStream = new FileInputStream("src/conditioner/report.txt");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+		
+		String str = null;
+		while((str = reader.readLine()) != null) {
+			String[] strs = str.split(",");
+			ReportForm rf = new ReportForm();
+			rf.setRoomId(Integer.valueOf(strs[0]));
+			rf.setStartTime(strs[1]);
+			rf.setEndTime(strs[2]);
+			rf.setCurrentTemperature(Double.valueOf(strs[3]));
+			rf.setTargetTemperature(Double.valueOf(strs[4]));
+			rf.setSpeed(Integer.valueOf(strs[5]));
+			rf.setCost(Double.valueOf(strs[6]));
+			reportForms.add(rf);
+		}
+		
+		
+		reader.close();
+		inputStream.close();
 	}
 	
 	public String getStatus() {

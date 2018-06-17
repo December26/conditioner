@@ -1,34 +1,48 @@
 package conditioner;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 
 public class ReportForm {
 	private int roomId;
-	private Date startTime;
-	private Date endTime;
-	private String currentTemperature;
-	private String targetTemperature;
-	private String speed;
+	private String startTime;
+	private String endTime;
+	private double currentTemperature;
+	private double targetTemperature;
+	private int speed;
 	private double cost;
 	
 	
 	
+	
+	@Override
+	public String toString() {
+		/*return "roomId=" + roomId + ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", currentTemperature=" + String.format("%.2f", currentTemperature) + ", targetTemperature=" + targetTemperature + ", speed="
+				+ speed + ", cost=" + String.format("%.2f", cost) + "\n";*/
+		return roomId + "," + startTime + "," + endTime
+				+ "," + String.format("%.2f", currentTemperature) + "," + targetTemperature + ","
+				+ speed + "," + String.format("%.2f", cost) + "\r\n";
+	}
 	public int getRoomId() {
 		return roomId;
 	}
-	public Date getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
-	public String getCurrentTemperature() {
+	public double getCurrentTemperature() {
 		return currentTemperature;
 	}
-	public String getTargetTemperature() {
+	public double getTargetTemperature() {
 		return targetTemperature;
 	}
-	public String getSpeed() {
+	public int getSpeed() {
 		return speed;
 	}
 	public double getCost() {
@@ -37,19 +51,19 @@ public class ReportForm {
 	public void setRoomId(int roomId) {
 		this.roomId = roomId;
 	}
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	public void setCurrentTemperature(String currentTemperature) {
+	public void setCurrentTemperature(double currentTemperature) {
 		this.currentTemperature = currentTemperature;
 	}
-	public void setTargetTemperature(String targetTemperature) {
+	public void setTargetTemperature(double targetTemperature) {
 		this.targetTemperature = targetTemperature;
 	}
-	public void setSpeed(String speed) {
+	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 	public void setCost(double cost) {

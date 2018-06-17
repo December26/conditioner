@@ -6,6 +6,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Slave {
 	private int roomId;
@@ -23,6 +26,8 @@ public class Slave {
 	private boolean flag;//是否连接
 	private int whether;//判断是否能够通过请求
 	
+	public List<ReportForm> reportForms = new ArrayList<ReportForm>();
+	
 	public Slave(int roomId) {
 		this.roomId = roomId;
 		currentTemperature = 26.5;
@@ -37,6 +42,10 @@ public class Slave {
 		whether = 0;
 		used = 0;
 		cost = 0;
+		/*reportForm.setRoomId(roomId);
+		reportForm.setCurrentTemperature(String.valueOf(currentTemperature));
+		reportForm.setTargetTemperature(String.valueOf(targetTemperature));
+		reportForm.setStartTime(new Date());*/
 	}
 
 	public synchronized void changeTemperature() throws Exception {
@@ -134,6 +143,8 @@ public class Slave {
 		//Socket socket = new Socket("10.28.224.241", 9999);
 		//Socket socket = new Socket("10.206.40.8", 9999);
 		//Socket socket = new Socket("10.8.164.10", 9999);
+		//Socket socket = new Socket("10.8.177.205", 9999);
+
 		
 		System.out.println("连接成功");
 		
