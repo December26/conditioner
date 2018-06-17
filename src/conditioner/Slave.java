@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class Slave {
 	private int roomId;
@@ -30,7 +31,7 @@ public class Slave {
 	
 	public Slave(int roomId) {
 		this.roomId = roomId;
-		currentTemperature = 26.5;
+		currentTemperature = 23 + Math.random()*7;
 		targetTemperature = 22;
 		refreshRate = 1;
 		speed = 0;
